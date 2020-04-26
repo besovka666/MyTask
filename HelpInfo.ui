@@ -42,7 +42,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Press:                                               For:</string>
+    <string>Press:                                     For:</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_3">
