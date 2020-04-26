@@ -293,6 +293,10 @@ void MainWindow::on_dateTimeEdit_dateTimeChanged(const QDateTime &dateTime)
             timer->setSingleShot(true);
             timer->start(std::abs(maplistTasks.value(ui->listTasks->currentItem()->text()).second.msecsTo(QDateTime::currentDateTime())));
             qDebug() << "Timer has been set up" << dateTime << endl;
+            if (dateTime > QDateTime::currentDateTime()) {
+                popUp->setPopupText("Таймер установлен");
+                popUp->show();
+            }
             QString textToDisplay = maplistTasks.value(ui->listTasks->currentItem()->text()).first;
             connect(&*timer, &QTimer::timeout, this, [=]() {
                 qDebug() << "Timeout!" << endl;
