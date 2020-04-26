@@ -6,6 +6,7 @@
 #include <QDebug>
 #include <QMap>
 #include <QMessageBox>
+#include <QShortcut>
 
 #include "popup.h"
 #include "createnote.h"
@@ -53,14 +54,43 @@ private slots:
 
     void on_listTasks_itemClicked(QListWidgetItem *item);
 
-    void on_pushButton_clicked();
+    void testpopup();
 
     void on_dateTimeEdit_dateTimeChanged(const QDateTime &dateTime);
+
+    void slotShortcutCreateTask();
+
+    void slotShortcutDEL();
+
+    void slotShortcutBold();
+
+    void slotShortcutItalic();
+
+    void slotShortcutLine();
+
+    void slotShortcutStrike();
+
+    void slotShortcutClose();
+
+    void HelpInfo();
+
+    void slotShortcutHelpInfo();
+
 
 private:
     Ui::MainWindow *ui;
     PopUp *popUp; // Объявляем объект всплывающего сообщения
     QList<QSharedPointer<QTimer>> timers_list;
+    QShortcut *KeyF1;
+    QShortcut *KeyDelete;
+    QShortcut *KeyBold;
+    QShortcut *KeyItalic;
+    QShortcut *KeyLine;
+    QShortcut *KeyStrike;
+    QShortcut *KeyClose;
+    QShortcut *KeyHelpInfo;
+    QShortcut *KeyF10;
+
 };
 
 #endif // MAINWINDOW_H

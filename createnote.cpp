@@ -17,7 +17,7 @@ void CreateNote::ShowMessage(QString str)
 }
 
 CreateNote::CreateNote(QWidget *parent) :
-    QDialog(parent),
+    QDialog(parent, Qt::WindowCloseButtonHint),
     ui(new Ui::CreateNote)
 {
     ui->setupUi(this);

@@ -25,6 +25,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 CONFIG += c++11
 
 SOURCES += \
+        HelpInfo.cpp \
         createnote.cpp \
         loaddata.cpp \
         main.cpp \
@@ -33,6 +34,7 @@ SOURCES += \
         savedata.cpp
 
 HEADERS += \
+        HelpInfo.h \
         createnote.h \
         loaddata.h \
         mainwindow.h \
@@ -40,6 +42,7 @@ HEADERS += \
         savedata.h
 
 FORMS += \
+        HelpInfo.ui \
         createnote.ui \
         mainwindow.ui
 

@@ -1,5 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "HelpInfo.h"
+#include "ui_HelpInfo.h"
+#include <QShortcut>
 
 #define NOTE_HEIGHT 40
 
@@ -41,6 +44,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     popUp = new PopUp();
+    connect(ui->actionHelp, SIGNAL(triggered()),this,SLOT(HelpInfo()));
 
     //ставим пикер времени на текущее время
 
@@ -49,6 +53,42 @@ MainWindow::MainWindow(QWidget *parent) :
     //Строчки для контекстного меню, если пользователь нажал ПКМ на элемент
     ui->listTasks->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui->listTasks, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(ProvideContextMenu(QPoint)));
+
+    KeyF1 = new QShortcut(this);
+    KeyF1->setKey(Qt::CTRL + Qt::Key_N);
+    connect(KeyF1, SIGNAL(activated()), this, SLOT(slotShortcutCreateTask()));
+
+    KeyDelete = new QShortcut(this);
+    KeyDelete->setKey(Qt::CTRL + Qt::Key_D);
+    connect(KeyDelete, SIGNAL(activated()), this, SLOT(slotShortcutDEL()));
+
+    KeyClose = new QShortcut(this);
+    KeyClose->setKey(Qt::CTRL + Qt::Key_Q);
+    connect(KeyClose, SIGNAL(activated()), this, SLOT(slotShortcutClose()));
+
+    KeyBold = new QShortcut(this);
+    KeyBold->setKey(Qt::Key_F1);
+    connect(KeyBold, SIGNAL(activated()), this, SLOT(slotShortcutBold()));
+
+    KeyItalic = new QShortcut(this);
+    KeyItalic->setKey(Qt::Key_F2);
+    connect(KeyItalic, SIGNAL(activated()), this, SLOT(slotShortcutItalic()));
+
+    KeyLine = new QShortcut(this);
+    KeyLine->setKey(Qt::Key_F3);
+    connect(KeyLine, SIGNAL(activated()), this, SLOT(slotShortcutLine()));
+
+    KeyStrike = new QShortcut(this);
+    KeyStrike->setKey(Qt::Key_F4);
+    connect(KeyStrike, SIGNAL(activated()), this, SLOT(slotShortcutStrike()));
+
+    KeyHelpInfo = new QShortcut(this);
+    KeyHelpInfo->setKey(Qt::Key_F5);
+    connect(KeyHelpInfo, SIGNAL(activated()), this, SLOT(slotShortcutHelpInfo()));
+
+    KeyF10 = new QShortcut(this);
+    KeyF10->setKey(Qt::Key_F10);
+    connect(KeyF10, SIGNAL(activated()), this, SLOT(testpopup()));
 
     sData = new SaveData();
     lData = new LoadData();
@@ -96,9 +136,13 @@ MainWindow::MainWindow(QWidget *parent) :
             timers_list.push_back(timer);
         }
     }
-
 }
 
+void MainWindow::HelpInfo()
+{
+    Help *dq = new Help();
+    dq->show();
+}
 
 
 MainWindow::~MainWindow()
@@ -230,7 +274,7 @@ void MainWindow::on_listTasks_itemClicked(QListWidgetItem *item)
     lastNote = item->text();
 }
 
-void MainWindow::on_pushButton_clicked()
+void MainWindow::testpopup()
 {
     popUp->setPopupText(ui->mainText->toPlainText());
     popUp->show();
@@ -259,3 +303,58 @@ void MainWindow::on_dateTimeEdit_dateTimeChanged(const QDateTime &dateTime)
         }
     }
 }
+
+void MainWindow::slotShortcutCreateTask()
+{
+    MainWindow::on_btnCreateANote_clicked();
+}
+
+void MainWindow::slotShortcutDEL()
+{
+    if (ui->listTasks->count() != 0){
+    maplistTasks.remove(ui->listTasks->currentItem()->text());
+    delete ui->listTasks->currentItem();
+
+    if (ui->listTasks->count() == 0) {
+        ui->mainText->setText("");
+        maplistTasks.clear();
+
+        sData->Save(&maplistTasks);  }
+    }
+    else {
+          popUp->setPopupText("Куда ещё удалять итак всё пусто...");
+          popUp->show();
+         }
+}
+
+void MainWindow::slotShortcutBold()
+{
+  MainWindow::on_btnSetBold_clicked();
+}
+
+void MainWindow::slotShortcutItalic()
+{
+  MainWindow::on_btnSetItalic_clicked();
+}
+
+void MainWindow::slotShortcutLine()
+{
+  MainWindow::on_btnUnderLine_clicked();
+}
+
+void MainWindow::slotShortcutStrike()
+{
+  MainWindow::on_btnStrike_clicked();
+}
+
+void MainWindow::slotShortcutClose()
+{
+    close();
+}
+
+void MainWindow::slotShortcutHelpInfo()
+{
+    MainWindow::HelpInfo();
+}
+
+
